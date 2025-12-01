@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="view_gym_list" model="ir.ui.view">
+            <field name="name">gym.fitness.list</field>
+            <field name="model">gym.fitness</field>
+            <field name="arch" type="xml">
+                <list string="Gym Fitness"
+                      decoration-success="state=='Free'" decoration-warning="state=='Coaching'"
+                      decoration-danger="state=='Leave'" default_order="sequence">
+                    <field name="sequence" widget="handle"/>
+                    <field name="name_bold" widget="html" string="Name"/>
+                    <field name="ref"/>
+                    <field name="date_of_birth"/>
+                    <field name="age"/>
+                    <field name="gender"/>
+                    <field name="active"/>
+                    <field name="state"
+                           decoration-success="state == 'Free'"
+                           decoration-warning="state == 'Coaching'"
+                           decoration-danger="state == 'Leave'"
+                           widget="badge"/>
+                    <button name="action_in_free" string="Free" type="object"
+                            icon="fa-check" class="btn-success"
+                            invisible="state == 'Free'"/>
+                    <button name="action_in_coaching" string="Coaching" type="object"
+                            icon="fa-dumbbell" class="btn-primary"
+                            invisible="state == 'Coaching'"/>
+                    <button name="action_in_leave" string="Leave" type="object"
+                            icon="fa-coffee" class="btn-warning"
+                            invisible="state == 'Leave'"/>
+                </list>
+            </field>
+        </record>
+        <record id="view_gym_form" model="ir.ui.view">
+            <field name="name">gym.fitness.form</field>
+            <field name="model">gym.fitness</field>
+            <field name="arch" type="xml">
+                <form string="Gym Fitness">
+
+                    <header>
+                        <button name="action_in_free" string="In Free" state="Free" type="object"/>
+                        <button name="action_in_coaching" string="In Coaching" state="Coaching" type="object"/>
+                        <button name="action_in_leave" string="In Leave" state="Leave" type="object"/>
+
+                        <field name="state" widget="statusbar" statusbar_visible="Free,Coaching,Leave" nolabel="1"/>
+                    </header>
+
+                    <sheet>
+                        <div class="oe_button_box" name="button_box">
+                            <button type="object" name="action_view_appointments" class="oe_stat_button"
+                                    icon="fa-star">
+                                <field name="appointment_count" widget="statinfo" string="Appointments"/>
+                            </button>
+                        </div>
+                        <group class="alert alert-success text-center o_form_header" invisible="not is_birthday"
+                               role="alert">
+                            <div class="o_form_label">Happy Birthday,
+                                <field name="name" readonly="1" nolabel="1"/>
+                            </div>
+                        </group>
+                        <group>
+                            <field name="name"/>
+                            <field name="ref"/>
+                            <field name="date_of_birth"/>
+                            <field name="age"/>
+                            <field name="gender" widget="radio"/>
+                            <field name="active"/>
+                        </group>
+                        <group>
+                            <field name="marital_status" invisible="age &lt;= 18"/>
+                            <field name="partner_name" required="marital_status == 'married'"/>
+                        </group>
+                        <group>
+                            <field name="phone" widget="phone"/>
+                            <field name="email" widget="email"/>
+                            <field name="website" widget="url"/>
+                        </group>
+                    </sheet>
+                    <div class="o_attachment_preview"/>
+                    <div class="oe_chatter">
+                        <chatter/>
+                    </div>
+                </form>
+            </field>
+        </record>
+        <record id="view_gym_search" model="ir.ui.view">
+            <field name="name">gym.fitness.search</field>
+            <field name="model">gym.fitness</field>
+            <field name="arch" type="xml">
+                <search>
+                    <field name="name"/>
+                    <field name="ref"/>
+                    <field name="date_of_birth"/>
+                    <field name="name_bold" widget="html" string="Name"/>
+                    <field name="gender"/>
+                    <filter name="filter_male" string="Male" domain="[('gender','=','male')]"/>
+                    <filter name="filter_female" string="Female" domain="[('gender','=','female')]"/>
+                    <separator/>
+                    <filter name="filter_kids" string="kids" domain="[('age','&lt;=',7)]"/>
+                    <searchpanel>
+                        <field name="gender" string="Gender" icon="fa-users" enable_counters="1"/>
+                    </searchpanel>
+                </search>
+            </field>
+        </record>
+        <record id="action_gym_fitness" model="ir.actions.act_window">
+            <field name="name">Trainers Records</field>
+            <field name="res_model">gym.fitness</field>
+            <field name="view_mode">list,form</field>
+        </record>
+        <record id="action_gym_male_fitness" model="ir.actions.act_window">
+            <field name="name">male Trainers Records</field>
+            <field name="res_model">gym.fitness</field>
+            <field name="view_mode">list,form</field>
+            <field name="context">{'default_gender':'male'}</field>
+            <field name="domain">[('gender', '=', 'male')]</field>
+        </record>
+        <record id="action_gym_female_fitness" model="ir.actions.act_window">
+            <field name="name">Female Trainers Records</field>
+            <field name="res_model">gym.fitness</field>
+            <field name="view_mode">list,form</field>
+            <field name="context">{'default_gender':'female'}</field>
+            <field name="domain">[('gender', '=', 'female')]</field>
+        </record>
+    </data>
+</odoo>

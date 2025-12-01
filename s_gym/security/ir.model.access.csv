@@ -1,0 +1,8 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+s_gym.access_gym_fitness,access_gym_fitness,s_gym.model_gym_fitness,base.group_user,1,1,1,1
+s_gym.access_appointment_fitness,access_appointment_fitness,s_gym.model_appointment_fitness,base.group_user,1,1,1,1
+s_gym.access_appointment_supplement,access_appointment_supplement,s_gym.model_appointment_supplement,base.group_user,1,1,1,1
+s_gym.access_gymers_tag,access_gymers_tag,s_gym.model_gymers_tag,base.group_user,1,1,1,1
+s_gym.cancel_appointment_wizard,access_cancel_appointment_wizard,s_gym.model_cancel_appointment_wizard,base.group_user,1,1,1,1
+s_gym.access_gym_training,access_gym_training,s_gym.model_gym_training,base.group_user,1,1,1,1
+access_gym_query,s_gym.query access,s_gym.model_gym_query,base.group_user,1,1,1,1

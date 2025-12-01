@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_gym_query_form" model="ir.ui.view">
+        <field name="name">gym.query.form</field>
+        <field name="model">gym.query</field>
+        <field name="arch" type="xml">
+            <form string="Gym Query">
+                <sheet>
+                    <group>
+                        <field name="name"/>
+                        <field name="query" widget="text"/>
+                        <field name="output_type"/>
+                    </group>
+                    <group>
+                        <field name="result" readonly="1" widget="text"/>
+                    </group>
+                </sheet>
+                <footer>
+                    <button name="action_execute_query"
+                            type="object"
+                            string="Execute"
+                            class="btn-primary"/>
+                    <button string="Close" class="btn-secondary" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_gym_query_list" model="ir.ui.view">
+        <field name="name">gym.query.list</field>
+        <field name="model">gym.query</field>
+        <field name="arch" type="xml">
+            <list string="Gym Query">
+                <field name="name"/>
+                <field name="query"/>
+                <field name="output_type"/>
+                <field name="result"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="action_gym_query" model="ir.actions.act_window">
+        <field name="name">Gym Query</field>
+        <field name="res_model">gym.query</field>
+        <field name="view_mode">list,form</field>
+    </record>
+    <record id="access_gym_query_user" model="ir.model.access">
+    <field name="name">gym.query access</field>
+    <field name="model_id" ref="model_gym_query"/>
+    <field name="group_id" ref="base.group_user"/>
+    <field name="perm_read" eval="1"/>
+    <field name="perm_write" eval="1"/>
+    <field name="perm_create" eval="1"/>
+    <field name="perm_unlink" eval="0"/>
+</record>
+
+
+</odoo>

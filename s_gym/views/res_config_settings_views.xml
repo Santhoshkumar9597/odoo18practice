@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="res_config_settings_view_form_inherit_s_gym" model="ir.ui.view">
+            <field name="name">res.config.settings.view.form.inherit.s.gym</field>
+            <field name="model">res.config.settings</field>
+            <field name="priority" eval="90"/>
+            <field name="inherit_id" ref="base.res_config_settings_view_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//form" position="inside">
+                    <app string="Gym"
+                         name="Gym"
+                         data-string="Gym"
+                         web_icon="s_gym,static/description/icon.png">
+                        <block title="Appointment Settings">
+                            <setting string="Cancellation Before Days">
+                                <div class="text-muted content-group mt16">
+                                    <span>Allow cancellation up to </span>
+                                    <field name="cancel_days" class="text-center" style="width:10%; min-width:4rem;"/>
+                                    <span>days before the appointment.</span>
+                                </div>
+                            </setting>
+                        </block>
+                    </app>
+                </xpath>
+            </field>
+        </record>
+        <record id="gym_config_settings_action" model="ir.actions.act_window">
+            <field name="name">Gym Settings</field>
+            <field name="res_model">res.config.settings</field>
+            <field name="view_mode">form</field>
+            <field name="target">inline</field>
+            <field name="context">{'module' : 's_gym'}</field>
+        </record>
+<!--        <menuitem id="gym_config_settings_menu"-->
+<!--                  name="Settings"-->
+<!--                  parent="menu_configuration"-->
+<!--                  sequence="100"-->
+<!--                  action="gym_config_settings_action"-->
+<!--                  groups="base.group_system"/>-->
+    </data>
+</odoo>

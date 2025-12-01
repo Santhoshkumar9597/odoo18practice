@@ -1,0 +1,9 @@
+<odoo>
+    <record id="seq_gym_fitness_ref" model="ir.sequence">
+        <field name="name">Gym Fitness Reference</field>
+        <field name="code">gym.fitness.ref</field>
+        <field name="prefix">GF</field>
+        <field name="padding">5</field>
+        <field name="company_id" eval="False"/>
+    </record>
+</odoo>

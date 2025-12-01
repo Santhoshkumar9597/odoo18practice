@@ -1,0 +1,202 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="action_mark_as_Confirm" model="ir.actions.server">
+            <field name="name">Mark As Confirm</field>
+            <field name="type">ir.actions.server</field>
+            <field name="model_id" ref="model_appointment_fitness"/>
+            <field name="binding_model_id" ref="model_appointment_fitness"/>
+            <field name="binding_view_types">list</field>
+            <field name="state">code</field>
+            <field name="code"><![CDATA[
+for record in records:
+    if record.state == 'cancel':
+        record.action_confirm_appointment()
+    ]]>
+            </field>
+        </record>
+        <record id="view_appointment_activity" model="ir.ui.view">
+            <field name="name">appointment.fitness.activity</field>
+            <field name="model">appointment.fitness</field>
+            <field name="arch" type="xml">
+                <activity string="appointment">
+                    <field name="trainer_id"/>
+                    <field name="ref"/>
+                    <templates>
+                        <div t-name="activity-box">
+                            <img
+                                    t-att-src="activity_image('appointment.fitness','image',record.id.raw_value)"
+                                    t-att-alt="record.name and record.name.value or ''"/>
+                            <div>
+                                <field name="ref" display="full"/>
+                            </div>
+                        </div>
+                    </templates>
+                </activity>
+            </field>
+        </record>
+
+        <record id="view_appointment_calendar" model="ir.ui.view">
+            <field name="name">appointment.fitness.calendar</field>
+            <field name="model">appointment.fitness</field>
+            <field name="arch" type="xml">
+                <calendar string="Appointments" date_start="booking_date" mode="month"
+                          color="state">
+                    <field name="trainer_id"/>
+                </calendar>
+            </field>
+        </record>
+
+        <record id="view_appointment_list" model="ir.ui.view">
+            <field name="name">appointment.fitness.list</field>
+            <field name="model">appointment.fitness</field>
+            <field name="arch" type="xml">
+                <list string="Appointments" default_order="sequence">
+                    <field name="sequence" widget="handle"/>
+                    <field name="trainer_id" widget="many2one_avatar"/>
+                    <field name="appointment_time"/>
+                    <field name="booking_date"/>
+                    <field name="name"/>
+                    <field name="ref"/>
+                    <field name="age" avg="Average Age"/>
+                    <field name="gender"/>
+                    <field name="state" widget="statusbar"/>
+                    <field name="progress" widget="progressbar"/>
+                </list>
+            </field>
+        </record>
+        <record id="view_appointment_form" model="ir.ui.view">
+            <field name="name">appointment.fitness.form</field>
+            <field name="model">appointment.fitness</field>
+            <field name="arch" type="xml">
+                <form string="appointment for Fitness">
+                    <header>
+                        <button name="action_confirm_appointment" string="confirm Appointment" type="object"
+                                class="btn-success" confirm="Are you sure you want to confirm this appointment?"/>
+                        <!--                        <field name="state" widget="statusbar" statusbar_visible="confirm" nolabel="1"/>-->
+                        <button name="action_cancel_appointment" string="Cancel Appointment" type="object"
+                                class="btn-danger" confirm="Are you sure you want to cancel this appointment?"/>
+                        <field name="state" widget="statusbar" statusbar_visible="confirm,cancel" nolabel="1"/>
+                    </header>
+                    <sheet>
+                        <div class="oe_title">
+                            <h1>
+                                <field name="priority" widget="priority" class="mr-3"/>
+                            </h1>
+                        </div>
+                        <field name="image" widget="image" class="oe_avatar"/>
+                        <group>
+                            <field name="trainer_id" widget="many2one_avatar"/>
+                            <field name="name"/>
+                            <field name="ref"/>
+                            <field name="age"/>
+                            <field name="gender"/>
+                            <field name="tag_ids" widget="many2many_tags" options="{'color_field': 'color'}"/>
+                            <field name="booking_date"/>
+                        </group>
+                        <group>
+                            <field name="install"/>
+                            <field name="appointment_time"/>
+                            <button name="action_train" string="Training Button"
+                                    help="the button helps to start training"
+                                    type="object" class="oe_highlight"/>
+                            <button name="%(action_gym_fitness)d" string="Action Button"
+                                    help="on clicking,this button you will be directed to trainers records"
+                                    confirm="are you confirm to open the trainers action ?"
+                                    type="action" class="oe_highlight"/>
+                            <button name="action_notification" type="object"
+                                    string="Notification Button" class="btn-primary"/>
+                        </group>
+                        <notebook>
+                            <page string="progress" name="progress">
+
+                                <field name="progress" widget="gauge"
+                                       options="{'collaborative':true,'resizable':true,'codeview':true}"/>
+                            </page>
+                            <page string="session" name="session">
+                                <field name="session" placeholder="Enter your session"
+                                       option="{'collaborative':true,'editable':true,'codeview':true}"/>
+                            </page>
+                            <page string="diet details" name="diet details">
+                                <field name="supplement_ids">
+                                    <list editable="bottom">
+                                        <field name="sl_no" readonly="1"/>
+                                        <field name="product_id"/>
+                                        <field name="price_unit"
+                                               attr="{'column_invisible':[('parent.hide_sales_price','=',True)]}"/>
+                                        <field name="quantity"/>
+                                    </list>
+                                    <form>
+                                        <field name="product_id"/>
+                                        <field name="price_unit"
+                                               attr="{'column_invisible':[('parent.hide_sales_price','=',True)]}"/>
+                                        <field name="quantity"/>
+                                    </form>
+                                </field>
+                            </page>
+                        </notebook>
+                    </sheet>
+                    <div class="o_attachment_preview"/>
+                    <div class="oe_chatter">
+                        <chatter/>
+                    </div>
+                </form>
+            </field>
+        </record>
+        <record id="view_appointment_search" model="ir.ui.view">
+            <field name="name">appointment.fitness.search</field>
+            <field name="model">appointment.fitness</field>
+            <field name="arch" type="xml">
+                <search>
+                    <field name="name" string="appointment for Fitness"
+                           filter_domain="['|',('name','ilike',self),('ref','ilike',self)]"/>
+                    <field name="trainer_id" widget="many2one_avatar"/>
+                    <field name="appointment_time"/>
+                    <field name="booking_date"/>
+                    <field name="ref"/>
+                    <field name="age"/>
+                    <field name="gender"/>
+                    <filter name="filter_male" string="Male" domain="[('gender','=','male')]"/>
+                    <filter name="filter_female" string="Female" domain="[('gender','=','female')]"/>
+                    <separator/>
+                    <filter name="filter_kids" string="kids" domain="[('age','&lt;=',7)]"/>
+                    <searchpanel>
+                        <field name="gender" string="Gender" icon="fa-users" enable_counters="1"/>
+                    </searchpanel>
+                </search>
+            </field>
+        </record>
+        <record id="action_appointment_fitness" model="ir.actions.act_window">
+            <field name="name">appointment Records</field>
+            <field name="res_model">appointment.fitness</field>
+            <field name="view_mode">list,form,activity,calendar</field>
+            <field name="target">inline</field>
+        </record>
+        <record id="action_appointment_male_fitness" model="ir.actions.act_window">
+            <field name="name">Male Appointment Records</field>
+            <field name="res_model">appointment.fitness</field>
+            <field name="view_mode">list,form,activity,calendar</field>
+            <field name="context">{'default_gender':'male'}</field>
+            <field name="domain">[('gender', '=', 'male')]</field>
+        </record>
+        <record id="action_appointment_female_fitness" model="ir.actions.act_window">
+            <field name="name">Female Appointment Records</field>
+            <field name="res_model">appointment.fitness</field>
+            <field name="view_mode">list,form,activity,calendar</field>
+            <field name="context">{'default_gender':'female'}</field>
+            <field name="domain">[('gender', '=', 'female')]</field>
+        </record>
+        <record id="view_appointment_form_inherit" model="ir.ui.view">
+            <field name="name">appointment.fitness.form.inherit.supplement</field>
+            <field name="model">appointment.fitness</field>
+            <field name="inherit_id" ref="s_gym.view_appointment_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='supplement_ids']/list" position="inside">
+                    <field name="description"/>
+                    <field name="total_price"/>
+                </xpath>
+
+            </field>
+        </record>
+    </data>
+</odoo>

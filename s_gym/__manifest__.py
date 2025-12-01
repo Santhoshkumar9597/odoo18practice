@@ -1,0 +1,27 @@
+{
+    'name': 'gym',
+    'version': '1.0',
+    'summary': 'eat sleep train rpeat',
+    'sequence': -100,
+    'description': """exercise make stronger then your excuse""",
+    'category': 'fitness',
+    'depends': ['base', 'mail', 'web'],
+    'data': [
+        'security/ir.model.access.csv',
+        'data/gymers.tag.csv',
+        'data/gymers_tag_data.xml',
+        'data/sequence_data.xml',
+        'wizard/cancel_appointment_view.xml',
+        'views/trainers.xml',
+        'views/appointment.xml',
+        'views/gymerstag.xml',
+        'views/res_config_settings_views.xml',
+        'views/training_views.xml',
+        'views/gym_query_views.xml',
+        'views/menu.xml',
+
+    ],
+    'installable': True,
+    'application': True,
+    'license': 'LGPL-3',
+}

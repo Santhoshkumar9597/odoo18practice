@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <menuitem id="menu_gym"
+                  name="Gym"
+                  web_icon="s_gym,static/description/icon.png"
+                  sequence="1"/>
+        <menuitem id="menu_gym_fitness"
+                  name="Trainers Records"
+                  parent="menu_gym"
+                  action="action_gym_fitness"
+                  sequence="2"/>
+        <menuitem id="menu_gym_male_fitness"
+                  name="Male Trainers Records"
+                  parent="menu_gym_fitness"
+                  action="action_gym_male_fitness"
+                  sequence="3"/>
+        <menuitem id="menu_gym_female_fitness"
+                  name="Female Trainers Records"
+                  parent="menu_gym_fitness"
+                  action="action_gym_female_fitness"
+                  sequence="4"/>
+        <menuitem id="menu_appointment_fitness"
+                  name="Appointment Records"
+                  parent="menu_gym"
+                  action="action_appointment_fitness"
+                  sequence="5"/>
+        <menuitem id="menu_appointment_male_fitness"
+                  name="Male Appointment Records"
+                  parent="menu_appointment_fitness"
+                  action="action_appointment_male_fitness"
+                  sequence="6"/>
+        <menuitem id="menu_appointment_female_fitness"
+                  name="Female Appointments Records"
+                  parent="menu_appointment_fitness"
+                  action="action_appointment_female_fitness"
+                  sequence="7"/>
+        <menuitem id="menu_configuration"
+                  name="configuration"
+                  parent="menu_gym"
+                  sequence="8"/>
+        <menuitem id="menu_cancel_appointment"
+                  name="cancellation"
+                  parent="menu_appointment_fitness"
+                  action="action_cancel_appointment"
+                  sequence="9"/>
+        <menuitem id="gymers_tag"
+              name="tags"
+              action="action_gymers_tag"
+              parent="menu_configuration"
+              sequence="10"/>
+        <menuitem id="gym_config_settings_menu"
+                  name="Settings"
+                  parent="menu_configuration"
+                  sequence="0"
+                  action="gym_config_settings_action"
+                  groups="base.group_system"/>
+        <menuitem id="gym_training"
+                  name="gym training"
+                  action="action_gym_training"
+                  parent="menu_configuration"
+                  sequence="11"/>
+        <menuitem id="menu_gym_query_root"
+              name="Technical"
+              parent="menu_gym"
+              sequence="30"/>
+        <menuitem id="menu_gym_query"
+              name="Query Tool"
+              parent="menu_gym_query_root"
+              action="action_gym_query"
+              sequence="10"/>
+
+    </data>
+</odoo>
+
